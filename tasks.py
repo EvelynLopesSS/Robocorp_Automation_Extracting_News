@@ -1,6 +1,5 @@
 from robocorp.tasks import task
-from robocorp.workitems import WorkItems
-
+from RPA.Robocorp.WorkItems import WorkItems
 from main import main
 
 
@@ -19,6 +18,7 @@ def news_scrapper():
     country = work_item.payload.get("country")
     category = work_item.payload.get("category")
     months = work_item.payload.get("months")
-
+    print(f"Country: {country}, Category: {category}, Months: {months}")
     main(country, category, months)
     #main("brazil", "economy", 2)
+

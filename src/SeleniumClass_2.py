@@ -70,7 +70,7 @@ class SeleniumBrowser:
     def close_ads(self):
         try:
             #close_ad_buttons = self.driver.find_elements(By.XPATH,'//button[@aria-label="Close Ad"]')
-            close_ad_buttons = self.driver.find_elements('//button[@aria-label="Close Ad"]')
+            close_ad_buttons = self.driver.loca('//button[@aria-label="Close Ad"]')
 
             for button in close_ad_buttons:
                 if button.is_displayed():
