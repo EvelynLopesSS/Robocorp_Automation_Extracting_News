@@ -1,107 +1,60 @@
-Overview
-Our mission is to enable all people to do the best work of their lives—the first act in achieving that mission is to help companies automate tedious but critical business processes. This RPA challenge should showcase your ability to build a bot for purposes of process automation.
+# Template: Python - Minimal
 
-🟢 The Challenge
-Your challenge is to automate the process of extracting data from a news site.
+This template leverages the new [Python framework](https://github.com/robocorp/robocorp), the [libraries](https://github.com/robocorp/robocorp/blob/master/docs/README.md#python-libraries) from to same project as well.
 
-You should push your code to a public Github repo, and then use that repo to create a Robocorp Control Room process. The process should have a completed successful run before submission. Make sure to write your files to the /output directory so that they are visible in the artifacts list.
+The template provides you with the basic structure of a Python project: logging out of the box and controlling your tasks without fiddling with the base Python stuff. The environment contains the most used libraries, so you do not have to start thinking about those right away. 
 
-****Once Completed invite Challenges@thoughtfulautomation.com to your Robocorp Org.
+👉 Other templates are available as well via our tooling and on our [Portal](https://robocorp.com/portal/tag/template)
 
-****Please use this format when naming your project "YOUR FULL NAME_Thoughtful Challenge"
+## Running
 
-The Source
-You are free to choose from any general news website, feel free to select from one of the following examples.
+#### VS Code
+1. Get [Robocorp Code](https://robocorp.com/docs/developer-tools/visual-studio-code/extension-features) -extension for VS Code.
+1. You'll get an easy-to-use side panel and powerful command-palette commands for running, debugging, code completion, docs, etc.
 
-https://apnews.com/
-https://www.aljazeera.com/
-https://www.reuters.com/
-https://gothamist.com/
-https://www.latimes.com/
-https://news.yahoo.com/
-Parameters
-The process must process three parameters via the robocluod work item
+#### Command line
 
-search phrase
+1. [Get RCC](https://github.com/robocorp/rcc?tab=readme-ov-file#getting-started)
+1. Use the command: `rcc run`
 
-news category/section/topic
+## Results
 
-number of months for which you need to receive news (if applicable)
+🚀 After running the bot, check out the `log.html` under the `output` -folder.
 
-Example of how this should work: 0 or 1 - only the current month, 2 - current and previous month, 3 - current and two previous months, and so on
+## Dependencies
 
-These may be defined within a configuration file, but we’d prefer they be provided via a Robocloud workitem
+We strongly recommend getting familiar with adding your dependencies in [conda.yaml](conda.yaml) to control your Python dependencies and the whole Python environment for your automation.
 
-The Process
-The main steps:
+<details>
+  <summary>🙋‍♂️ "Why not just pip install...?"</summary>
 
-Open the site by following the link
+Think of [conda.yaml](conda.yaml) as an equivalent of the requirements.txt, but much better. 👩‍💻 With `conda.yaml`, you are not just controlling your PyPI dependencies; you control the complete Python environment, which makes things repeatable and easy.
 
-Enter a phrase in the search field
+👉 You will probably need to run your code on another machine quite soon, so by using `conda.yaml`:
+- You can avoid `Works on my machine` -cases
+- You do not need to manage Python installations on all the machines
+- You can control exactly which version of Python your automation will run on 
+  - You'll also control the pip version to avoid dep. resolution changes
+- No need for venv, pyenv, ... tooling and knowledge sharing inside your team.
+- Define dependencies in conda.yaml, let our tooling do the heavy lifting.
+- You get all the content of [conda-forge](https://prefix.dev/channels/conda-forge) without any extra tooling
 
-On the result page
+> Dive deeper with [these](https://github.com/robocorp/rcc/blob/master/docs/recipes.md#what-is-in-condayaml) resources.
 
-If possible select a news category or section from the
+</details>
+<br/>
 
-Choose the latest (i.e., newest) news
+> The full power of [rpaframework](https://robocorp.com/docs/python/rpa-framework) -libraries is also available on Python as a backup while we implement the new Python libraries.
 
-Get the values: title, date, and description.
+## What now?
 
-Store in an Excel file:
+🚀 Now, go get'em
 
-title
+Start writing Python and remember that the AI/LLM's out there are getting really good and creating Python code specifically.
 
-date
+👉 Try out [Robocorp ReMark 💬](https://chat.robocorp.com)
 
-description (if available)
-
-picture filename
-
-count of search phrases in the title and description
-
-True or False, depending on whether the title or description contains any amount of money
-
-Possible formats: $11.1 | $111,111.11 | 11 dollars | 11 USD
-
-Download the news picture and specify the file name in the Excel file
-
-Follow steps 4-6 for all news that falls within the required time period
-
- 
-
-Specifically, we will be looking for the following in your submission:
-
-Quality code Your code is clean, maintainable, and well-architected. The use of an object-oriented model is preferred.
-
-We would advise you ensure your work is PEP8 compliant
-
-Employ OOP
-
-Resiliency Your architecture is fault-tolerant and can handle failures both at the application level and website level.
-
-Such as using explicit waits even when using the robocorp wrapper browser for selenium
-
-Best practices Your implementation follows best RPA practices.
-
-Use proper logging or a suitable third party library
-
-Use appropriate string formatting in your logs (note we use python 3.8+)
-
- 
-
-Other parameters:
-
-Do NOT use APIs or Web Requests for this exercise!!
-
-Please leverage pure Python
-
-Please use pure Python (as demonstrated here) and pure Selenium (via rpaframework) without utilizing Robot Framework.
-
-An example of using Selenium directly from rpaframework can be found here. You can use either the CustomSelenium or ExtendedSelenium approach.
-Leverage GitHub
-
-Create a repo on GitHub for your code.
-When adding your robot to Robocloud add it via the GitHub app integration.
-Have fun with this challenge!
-
-While the primary goal of this challenge is to assess your technical skills, we also love to see a sense of passion, creativity, and personality.
+For more information, do not forget to check out the following:
+- [Robocorp Documentation -site](https://robocorp.com/docs)
+- [Portal for more examples](https://robocorp.com/portal)
+- Follow our main [robocorp -repository](https://github.com/robocorp/robocorp) as it is the main location where we developed the libraries and the framework.

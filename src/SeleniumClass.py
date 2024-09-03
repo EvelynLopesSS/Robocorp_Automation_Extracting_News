@@ -10,9 +10,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
-from extract_date_period import calculate_time_interval
-from money_verification import contains_money2
-from search_phrase_count import count_search_phrase
+from .extract_date_period import calculate_time_interval
+from .manage_files import create_image_path
+from .money_verification import contains_money2
+from .search_phrase_count import count_search_phrase
 
 
 class SeleniumBrowser:
@@ -68,10 +69,8 @@ class SeleniumBrowser:
         self.image_count += 1
         image_name = f'Imagem_{self.image_count:02}.jpg'
 
-        img_dir = 'Img'
-        if not os.path.exists(img_dir):
-            os.makedirs(img_dir)
-        image_path = os.path.join(img_dir, image_name)
+  
+        image_path = create_image_path(image_name)
 
         try:
             response = requests.get(image_url)
@@ -160,5 +159,4 @@ class SeleniumBrowser:
 
     def close_browser(self):
         self.driver.quit()
-
 
