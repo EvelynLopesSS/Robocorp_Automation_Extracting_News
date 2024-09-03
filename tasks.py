@@ -13,9 +13,12 @@ def news_scrapper():
     """
     # Get the Work Item variables
     wi = WorkItems()
-    country = wi.get_variable("country")
-    category = wi.get_variable("category")
-    months = wi.get_variable("months")
+    work_item = wi.get_input_work_item()
+    
+    # Recupera os valores do payload
+    country = work_item.payload.get("country")
+    category = work_item.payload.get("category")
+    months = work_item.payload.get("months")
 
     main(country, category, months)
     #main("brazil", "economy", 2)
