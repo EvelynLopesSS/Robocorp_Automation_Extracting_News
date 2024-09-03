@@ -16,10 +16,14 @@ from .money_verification import contains_money2
 from .search_phrase_count import count_search_phrase
 
 
+
+
 class SeleniumBrowser:
     def __init__(self):
-        self.driver = webdriver.Edge()
-        self.driver.maximize_window()
+        self.options = webdriver.EdgeOptions()
+        self.options.add_argument("--inprivate") 
+        self.driver = webdriver.Edge(options=self.options)
+        #self.driver.maximize_window()
         self.image_count = 0 
 
     def find_element_by_xpath(self, xpath: str):
