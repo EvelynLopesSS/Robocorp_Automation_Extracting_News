@@ -13,11 +13,11 @@ def create_folder_in_output(folder_name):
     folder_path = os.path.join('output', folder_name)
     if not os.path.exists(folder_path):
          os.makedirs(folder_path)
+         print(f"Folder '{folder_name}' created successfully.")
     return folder_path
 
 def create_image_path(image_name):
     img_dir = create_folder_in_output('Img')
-
     image_path = os.path.join(img_dir, image_name)
 
     return image_path
@@ -29,9 +29,9 @@ def exclude_folder_in_output(folder_name):
 
     if os.path.exists(folder_path):
         shutil.rmtree(folder_path)
-        print(f"Pasta '{folder_name}' excluída com sucesso.")
+        print(f"Folder '{folder_name}' sucessfully deleted.")
     else:
-        print(f"Pasta '{folder_name}' não encontrada.")
+        print(f"Folder '{folder_name}' not found.")
 
 def salve_data_to_excel(df):
     excel_dir = create_folder_in_output('Excel')
