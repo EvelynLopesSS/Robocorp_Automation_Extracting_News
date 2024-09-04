@@ -1,8 +1,7 @@
-from src.SeleniumClass import SeleniumBrowser
+from src.SeleniumClass_2 import SeleniumBrowser
 from src.manage_files import salve_data_to_excel, exclude_folder_in_output
 
 
-exclude_folder_in_output('Excel')
 
 def main(search_phrase:str, category:str, month:int):
     query = [search_phrase, category ]

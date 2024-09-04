@@ -4,31 +4,16 @@ import time
 from datetime import datetime
 
 import requests
-
-# from selenium import webdriver
-# from selenium.webdriver.common.action_chains import ActionChains
-# from selenium.webdriver.common.by import By
-# from selenium.webdriver.support import expected_conditions as EC
-# from selenium.webdriver.support.ui import Select, WebDriverWait
-
-
-
+from RPA.Browser.Selenium import Selenium
 
 from .extract_date_period import calculate_time_interval
 from .manage_files import create_image_path
 from .money_verification import contains_money2
 from .search_phrase_count import count_search_phrase
 
-from RPA.Browser.Selenium import Selenium
-
 
 class SeleniumBrowser:
     def __init__(self):
-        # self.options = webdriver.EdgeOptions()
-        # self.options.add_argument("--inprivate") 
-        # self.driver = webdriver.Edge(options=self.options)
-        #self.driver.maximize_window()
-
         self.driver = Selenium()
         self.driver.open_available_browser(
             url="https://www.aljazeera.com/",  
@@ -38,34 +23,23 @@ class SeleniumBrowser:
         self.image_count = 0 
 
     def find_element_by_xpath(self, xpath: str):
-        #return self.driver.find_element(By.XPATH, xpath)
-        
-        #return self.driver.find_element(xpath)
         return xpath
     def find_element(self, xpath: str):
         return self.driver.find_element(xpath)
     
     
     def wait_for_xpath_element(self, xpath: str, timeout=10):
-        #return WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located((By.XPATH, xpath)))
-        
-        #return self.driver.wait_until_element_is_visible(xpath, timeout)
-
         self.driver.wait_until_element_is_visible(xpath, timeout)
         return xpath 
 
     def click_element(self, element):
-        #ActionChains(self.driver).move_to_element(element).click().perform()
         self.driver.click_element(element)
 
 
     def select_value(self, element, value):
-        # select = Select(element)
-        # select.select_by_value(value)
         self.driver.select_from_list_by_value(element, value)
     def navigate(self):
         url = "https://www.aljazeera.com/"   
-        #self.driver.get(url)
         self.driver.go_to(url)
         time.sleep(2)
         try:
@@ -75,7 +49,6 @@ class SeleniumBrowser:
             print(f'Error on accept cookies button: {e}')
     def close_ads(self):
         try:
-            #close_ad_buttons = self.driver.find_elements(By.XPATH,'//button[@aria-label="Close Ad"]')
             close_ad_buttons = self.driver.find_elements('//button[@aria-label="Close Ad"]')
 
             for button in close_ad_buttons:
@@ -96,10 +69,7 @@ class SeleniumBrowser:
     def salve_image(self, image_url):
         self.image_count += 1
         image_name = f'Imagem_{self.image_count:02}.jpg'
-
-  
         image_path = create_image_path(image_name)
-
         try:
             response = requests.get(image_url)
             response.raise_for_status()  
@@ -112,7 +82,18 @@ class SeleniumBrowser:
             print(f'Error saving image {image_url}: {e}')
         
         return image_name
-    def extract_news_data(self, search_phrase, months):
+    def extract_news_date(self, article):
+        try:
+            date_text = article.find_element('xpath','.//div[@class="gc__date__date"]//span[@aria-hidden="true"]').text
+
+            if date_text.startswith('Last update '):
+                date_text = date_text.replace('Last update ', '')
+            pub_date = datetime.strptime(date_text, '%d %b %Y')
+            return pub_date 
+        except Exception as e:
+            print(f'News does not have a publication date: {e}')
+            return None
+    def extract_news_data(self,search_phrase, months):
         start_date_str, end_date_str = calculate_time_interval(months)
         start_date = datetime.strptime(start_date_str, '%d %b %Y')
         end_date = datetime.strptime(end_date_str, '%d %b %Y')
@@ -120,44 +101,19 @@ class SeleniumBrowser:
         self.load_all_articles() 
 
         articles_data = []
-        articles = self.driver.find_elements('xpath', '//article')
-
+        articles = self.driver.find_elements('//article')
+        
         for article in articles:
             try:
-                # Inicializa a variável pub_date como None
-                pub_date = None
-
-                # Verifica se o elemento <footer> do artigo existe
-                footer_article = article.find_element('xpath', './/footer[@class="gc__footer"]')
-                
-                # Procura pela data dentro do artigo, se o elemento <footer> existe
-                if footer_article:
-                    # Tenta encontrar a data dentro do artigo usando o XPath
-                    try:
-                        date_text = footer_article.find_element('xpath', './/div[@class="gc__date__date"]//span[@aria-hidden="true"]').text
-
-                        if date_text.startswith('Last update '):
-                            date_text = date_text.replace('Last update ', '')
-                            pub_date = datetime.strptime(date_text, '%d %b %Y')
-                        else:
-                            pub_date = datetime.strptime(date_text, '%d %b %Y')
-
-                    except Exception as date_exception:
-                        print(f"Erro ao extrair a data: {date_exception}")
-                        continue
-                else:
-                    print("Elemento <footer> não encontrado para este artigo.")
-                    continue
-
-                if start_date <= pub_date <= end_date:
-                    title = article.find_element('xpath', './/h3[@class="gc__title"]/a/span').text
-                    description = article.find_element('xpath', './/div[@class="gc__body-wrap"]//div[@class="gc__excerpt"]/p').text
-
+                pub_date = self.extract_news_date(article)
+                if pub_date is not None and start_date <= pub_date <= end_date:
+                    title = article.find_element('xpath','.//h3[@class="gc__title"]/a/span').text
+                    description = article.find_element('xpath','.//div[@class="gc__body-wrap"]//div[@class="gc__excerpt"]/p').text                 
                     contains_money_info = contains_money2(title) or contains_money2(description)
                     search_term_frequency = count_search_phrase(search_phrase, title, description)
 
                     try:
-                        image_element = article.find_element('xpath', './/div[@class="gc__image-wrap"]//img[@class="article-card__image gc__image"]')
+                        image_element = article.find_element('xpath','.//div[@class="gc__image-wrap"]//img[@class="article-card__image gc__image"]')
                         image_url = image_element.get_attribute('src')
                         image_name = self.salve_image(image_url)
                     except:
@@ -198,5 +154,4 @@ class SeleniumBrowser:
         except Exception as e:
             print(f'Error on search: {e}')
     def close_browser(self):
-        #self.driver.quit()
         self.driver.close_browser()
