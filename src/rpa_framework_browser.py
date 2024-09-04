@@ -1,5 +1,4 @@
-import os
-import shutil
+
 import time
 from datetime import datetime
 
@@ -8,7 +7,7 @@ from RPA.Browser.Selenium import Selenium
 
 from .extract_date_period import calculate_time_interval
 from .manage_files import create_image_path
-from .money_verification import contains_money2
+from .money_verification import contains_money
 from .search_phrase_count import count_search_phrase
 
 
@@ -75,7 +74,7 @@ class SeleniumBrowser:
             
             with open(image_path, 'wb') as f:
                 f.write(response.content)
-            print(f'Image saved successfully: {image_path}')
+            #print(f'Image saved successfully: {image_path}')
         
         except Exception as e:
             print(f'Error saving image {image_url}: {e}')
@@ -107,8 +106,9 @@ class SeleniumBrowser:
                 pub_date = self.extract_news_date(article)
                 if pub_date is not None and start_date <= pub_date <= end_date:
                     title = article.find_element('xpath','.//h3[@class="gc__title"]/a/span').text
+                    news_url = article.find_element('xpath','.//a[@class="u-clickable-card__link"]').get_attribute('href')
                     description = article.find_element('xpath','.//div[@class="gc__body-wrap"]//div[@class="gc__excerpt"]/p').text                 
-                    contains_money_info = contains_money2(title) or contains_money2(description)
+                    contains_money_info = contains_money(title) or contains_money(description)
                     search_term_frequency = count_search_phrase(search_phrase, title, description)
 
                     try:
@@ -124,7 +124,9 @@ class SeleniumBrowser:
                         'publication_date': pub_date.strftime('%d %b %Y'),
                         'search_phrase_count': search_term_frequency,
                         'contains_money': contains_money_info,
-                        'image_name': image_name
+                        'image_name': image_name,
+                        'image_url': image_url,
+                        'news_url':news_url
                     }
                     
                     articles_data.append(article_data)

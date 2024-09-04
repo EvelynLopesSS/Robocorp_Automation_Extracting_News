@@ -2,6 +2,8 @@ import os
 import shutil
 import pandas as pd
 import glob
+import xlsxwriter 
+
 
      
 def create_output_folder():
@@ -56,3 +58,31 @@ def exclude_zip_files():
     zip_files = glob.glob('output/*.zip')
     for zip_file in zip_files:
         os.remove(zip_file)
+
+def excel():
+    excel_path = 'output/teste.xlsx' 
+    dataframe = pd.read_excel('output/Excel/news_data.xlsx')
+    dataframe = dataframe[['title', 'description', 'publication_date',
+                           'search_phrase_count', 'contains_money', 'image_name',
+                           'image_url', 'news_url']]
+
+    workbook = xlsxwriter.Workbook(excel_path)
+    worksheet = workbook.add_worksheet('news')
+    header_format = workbook.add_format({'bold': True, 'bg_color': '#C6EFCE', 'border': 1})
+
+    for col_num, header in enumerate(dataframe.columns):
+        worksheet.write(0, col_num, header, header_format)
+
+    for row_num, row_data in enumerate(dataframe.values, start=1):
+        for col_num, value in enumerate(row_data):
+            worksheet.write(row_num, col_num, value)
+
+    options = {'name': 'Data',
+               'columns': [{'header': col} for col in dataframe.columns]}
+    worksheet.add_table(0, 0, len(dataframe), len(dataframe.columns) - 1, options)
+
+    worksheet.freeze_panes(1, 0)
+    workbook.close()
+
+    print(f"Data saved: {excel_path} - successfully!")
+

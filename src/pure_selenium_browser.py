@@ -12,7 +12,7 @@ from selenium.webdriver.support.ui import Select, WebDriverWait
 
 from .extract_date_period import calculate_time_interval
 from .manage_files import create_image_path
-from .money_verification import contains_money2
+from .money_verification import contains_money
 from .search_phrase_count import count_search_phrase
 
 
@@ -119,7 +119,7 @@ class SeleniumBrowser:
                 if start_date <= pub_date <= end_date:
                     title = article.find_element(By.XPATH, './/h3[@class="gc__title"]/a/span').text
                     description = article.find_element(By.XPATH, './/div[@class="gc__body-wrap"]//div[@class="gc__excerpt"]/p').text                 
-                    contains_money_info = contains_money2(title) or contains_money2(description)
+                    contains_money_info = contains_money(title) or contains_money(description)
                     search_term_frequency = count_search_phrase(search_phrase, title, description)
 
                     try:
