@@ -17,7 +17,6 @@ class SeleniumBrowser:
         self.driver = Selenium()
         self.driver.open_available_browser(
             url="https://www.aljazeera.com/",  
-            browser_selection="edge",  
             options={"arguments": ["--inprivate"]}
         )  
         self.image_count = 0 
