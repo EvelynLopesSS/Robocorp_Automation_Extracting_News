@@ -1,6 +1,7 @@
 import os
 import shutil
 import pandas as pd
+import glob
 
      
 def create_output_folder():
@@ -35,11 +36,23 @@ def exclude_folder_in_output(folder_name):
 
 def salve_data_to_excel(df):
     excel_dir = create_folder_in_output('Excel')
-    excel_path_output = os.path.join('output', 'news_data.xlsx')
+    #excel_path_output = os.path.join('output', 'news_data.xlsx')
     excel_path = os.path.join(excel_dir, 'news_data.xlsx')
 
     dataframe = pd.DataFrame(df)
     dataframe.to_excel(excel_path, sheet_name='news', index=False)
-    dataframe.to_excel(excel_path_output, sheet_name='news', index=False)
+    #dataframe.to_excel(excel_path_output, sheet_name='news', index=False)
     
-    
+def zip_folder(folder_path:str, zip_file_name:str):
+    zip_path = os.path.join('output', zip_file_name)
+
+    if os.path.exists(folder_path):
+        shutil.make_archive(zip_path, 'zip', folder_path)
+        print(f"Pasta 'Img' zipada com sucesso em: {zip_path}.zip")
+    else:
+        print(f"A pasta '{folder_path}' não foi encontrada.")
+
+def exclude_zip_files():
+    zip_files = glob.glob('output/*.zip')
+    for zip_file in zip_files:
+        os.remove(zip_file)

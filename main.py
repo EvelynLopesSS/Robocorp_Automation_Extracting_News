@@ -1,5 +1,6 @@
 from src.rpa_framework_browser import SeleniumBrowser
-from src.manage_files import salve_data_to_excel, exclude_folder_in_output
+from src.manage_files import salve_data_to_excel, exclude_folder_in_output, zip_folder, exclude_zip_files
+
 
 
 
@@ -12,6 +13,9 @@ def main(search_phrase:str, category:str, month:int):
     drive.search(query)
     news_data = drive.extract_news_data(search_phrase, month)
     salve_data_to_excel(news_data)
+    exclude_zip_files()
+    zip_folder('output/Img', 'Images') 
+    zip_folder('output/Excel', 'Excel')
     drive.close_browser()
 
 
