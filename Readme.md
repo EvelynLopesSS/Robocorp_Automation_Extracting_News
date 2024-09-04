@@ -49,4 +49,4 @@ The robot generates an 'Img' folder containing downloaded images and an 'Excel' 
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/your-username/news-article-extractor.git
+   git clone (https://github.com/EvelynLopesSS/Challange.git)
