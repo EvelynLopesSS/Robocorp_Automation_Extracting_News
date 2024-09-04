@@ -1,4 +1,4 @@
-from src.SeleniumClass_2 import SeleniumBrowser
+from src.SeleniumClass import SeleniumBrowser
 from src.manage_files import salve_data_to_excel, exclude_folder_in_output
 
 

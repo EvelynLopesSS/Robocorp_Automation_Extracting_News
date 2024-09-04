@@ -20,12 +20,12 @@ from .search_phrase_count import count_search_phrase
 
 class SeleniumBrowser:
     def __init__(self):
-        self.options = webdriver.EdgeOptions()
+        self.options = webdriver.ChromeOptions()
         self.options.add_argument("--inprivate")
         self.options.add_argument("--no-sandbox")
         self.options.add_argument("--disable-dev-shm-usage")
         self.options.add_argument("--remote-debugging-port=9222")
-        self.driver = webdriver.Edge(options=self.options)
+        self.driver = webdriver.Chrome(options=self.options)
         #self.driver.maximize_window()
         self.image_count = 0 
 
