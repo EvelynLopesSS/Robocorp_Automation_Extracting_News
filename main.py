@@ -1,4 +1,4 @@
-from src.SeleniumClass import SeleniumBrowser
+from src.rpa_framework_browser import SeleniumBrowser
 from src.manage_files import salve_data_to_excel, exclude_folder_in_output
 
 
