@@ -22,6 +22,8 @@ This Robocorp robot automates the process of extracting news articles from a tar
 
 ## ⚙️ Executing with Robocorp Control Room
 
+https://robocorp.com/portal
+
 1. **Create a Robocorp Control Room Process:**
    * In your Robocorp Control Room, create a new process using the GitHub app integration.
    * Link the process to your repository.
